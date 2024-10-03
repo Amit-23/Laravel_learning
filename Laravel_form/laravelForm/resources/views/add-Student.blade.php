@@ -10,9 +10,6 @@
 
 <body>
   
-
-
-
    <div class="container">
       <h1>Laravel Form</h1>
      <form action="/add" method="post">
