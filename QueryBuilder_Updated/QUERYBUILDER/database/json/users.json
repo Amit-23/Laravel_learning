@@ -1,0 +1,26 @@
+[
+    {
+        "name" : "Amit Singh",
+        "email" : "amit@gmail.com",
+        "age" : "18",
+        "city" : "Harayana"
+    },
+    {
+        "name" : "Singh",
+        "email" : "t@gmail.com",
+         "age" : "28",
+        "city" : "Delhi"
+    },
+    {
+        "name" : "Vkya",
+        "email" : "mit@gmail.com",
+         "age" : "30",
+        "city" : "Goa"
+    },
+    {
+        "name" : "Vijay",
+        "email" : "vijayit@gmail.com",
+         "age" : "30",
+        "city" : "Mumbai"
+    }
+]
