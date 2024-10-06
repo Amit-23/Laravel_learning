@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Uppercase;
 
 class UserRequest extends FormRequest
 {
@@ -22,32 +23,34 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
-            'username' => 'required',
+
+            'username' => ['required', new Uppercase],
+
             'useremail' => 'required|email',
             'userage' => 'required|numeric|  min:18',
             'usercity' => 'required',
-        
+
             //
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-             'username.required' => '*Username cannot be empty!',
-             'useremail.required' => '*Email Field cannot be empty!',
-             'userage.required' => '*Age Field cannot be empty!',
+            'username.required' => '*Username cannot be empty!',
+            'useremail.required' => '*Email Field cannot be empty!',
+            'userage.required' => '*Age Field cannot be empty!',
             'userage.min' => '*You must be atleast 18 years old',
-           'userage.numeric' => '*Age Field must contain numeric value only',
-        
+            'userage.numeric' => '*Age Field must contain numeric value only',
+
 
         ];
     }
 
-    protected function prepareForValidation():void
+    protected function prepareForValidation(): void
     {
-        $this->merge([
-            'username' => strtoupper($this->username),
-        ]);
+        //$this->merge([
+        // 'username' => strtoupper//($this->username),
+        // ]);  used to sanitize the input
     }
 }
