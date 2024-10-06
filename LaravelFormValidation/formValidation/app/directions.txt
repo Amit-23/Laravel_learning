@@ -1,0 +1,4 @@
+used custom validation rules
+learnt how to make custom request validation in order to keep the controller clean
+(php artisan make:request UserRequest)
+ leant how to validate server side.

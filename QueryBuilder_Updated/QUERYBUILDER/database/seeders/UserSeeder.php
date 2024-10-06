@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
         $users = collect(json_decode($json));
 
         $users->each(function($user){
+            
             user::create([
                 'name' => $user->name,
                 'email' => $user->email,

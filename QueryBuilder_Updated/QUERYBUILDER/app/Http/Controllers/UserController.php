@@ -30,6 +30,7 @@ class UserController extends Controller
     }
 
 
+    
     public function addUser(Request $request)
     {
         $user = DB::table('users')
