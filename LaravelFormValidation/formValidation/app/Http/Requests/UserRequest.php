@@ -11,7 +11,7 @@ class UserRequest extends FormRequest
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
-    {
+    {   
         return true;
     }
 
@@ -29,6 +29,7 @@ class UserRequest extends FormRequest
             'useremail' => 'required|email',
             'userage' => 'required|numeric|  min:18',
             'usercity' => 'required',
+
 
             //
         ];
