@@ -8,19 +8,25 @@
   </head>
   <body>
     
+  <div class="row">
+    <div class="col-8">
+      @if (session('status'))
+
+      <div class="alert alert-success">
+        {{session('status')}}
+      </div>
+
+
+      @endif
+    </div>
+  </div>
 <div class="container mt-20">
 
 <div class="row">
 
-    <div class="col-8 bg-warning-subtle mb-3">
-            <h4>@yield('title')</h4>
-    </div>
+<div class="col-8">
+   @yield('content')
 
-<div class="row">
-    <div class="col-8">
-        @yield('content')
-    </div>
-   
 
 </div>
 </div>

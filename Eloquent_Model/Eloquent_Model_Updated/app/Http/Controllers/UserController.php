@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-       $users = User::all();
+       $users = User::simplepaginate(1);
 
        //$users = User::find(2,['name','email']);
        //$users = User::count();
@@ -25,7 +25,7 @@ class UserController extends Controller
 
        //return $users;
 
-        return view('welcome',compact('users'));
+        return view('home',compact('users'));
     }
 
     /**
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('adduser');
     }
 
     /**
@@ -41,38 +41,97 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        
+
+        $request->validate([
+            'username' => 'required|string',
+            'useremail' => 'required|email|unique:users,email',
+            'userage' => 'required|numeric',
+            'usercity' => 'required|alpha',
+
+
+        ]);
+         $user = new User;
+
+         $user->name = $request->username;
+         $user->email = $request->useremail;
+         $user->age = $request->userage;
+         $user->city = $request->usercity;
+
+         $user->save();
+
+         return redirect()->route('user.index')->with('status','New User Added Successfully');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $id)
     {
-        //
+        $users = User::find($id);
+       
+        return view("viewuser",compact('users'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(string $id)
+
+  
     {
-        //
+          
+       $users = User::find($id);
+       
+
+       return view("updateuser",compact('users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
-    {
-        //
+    public function update(Request $request, string $id)
+    {  
+
+
+        $request->validate([
+            'username' => 'required|string',
+            'useremail' => 'required|email|unique:users,email',
+            'userage' => 'required|numeric',
+            'usercity' => 'required|alpha',
+
+
+        ]);
+
+
+        $user = User::find($id);
+
+        $user->name = $request->username;
+        $user->email = $request->useremail;
+        $user->age = $request->userage;
+        $user->city = $request->usercity;
+
+        $user->save();
+
+          return redirect()->route('user.index')->with('status','User Updated Successfully.');
+
+
+
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $id)
     {
-        //
+        $users = User::find($id);
+
+        $users->delete();
+
+        
+         return redirect()->route('user.index')->with('status','User Deleted Successfully');
     }
 }
