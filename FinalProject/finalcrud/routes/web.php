@@ -6,6 +6,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('admin-page',function(){
-    return view('admin.index');
-});
+require __DIR__.'/admin.php';
