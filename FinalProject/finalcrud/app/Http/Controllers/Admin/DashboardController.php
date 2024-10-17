@@ -13,6 +13,10 @@ class DashboardController extends Controller
         return view('admin.dashboard');
     }
 
+    public function user(){
+        return view('user.dashboard');
+    }
+
 
     public function logout(Request $request){
         Auth::logout();
