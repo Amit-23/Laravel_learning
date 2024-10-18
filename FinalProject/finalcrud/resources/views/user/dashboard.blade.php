@@ -26,10 +26,49 @@
 <section class="content">
     <div class="container-fluid">
         @if(session('requestData'))
-            <h2>Welcome {{ session('requestData')['name'] }}</h2>
+        <h2>Welcome {{ session('requestData')['name'] }}</h2>
         @else
-            <h2>Welcome User</h2>
+        <h2>Welcome User</h2>
         @endif
+
+        <table class="table table-striped table-bordered">
+
+
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Task</th>
+                <th>Delete</th>
+                <th>Update</th>
+
+            </tr>
+
+            <tr>
+                <td>Amit</td>
+                <td>amitgmail.com</td>
+                <td>Finish_the_project</td>
+                <td>Update</td>
+
+                <td>
+                    <form action="{{}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+
+
+                    </form>
+
+                </td>
+            </tr>
+
+
+
+        </table>
+
+
+
+
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 </section>

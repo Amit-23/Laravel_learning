@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-       $users = User::simplepaginate(1);
+       $users = User::simplepaginate(3);
 
        //$users = User::find(2,['name','email']);
        //$users = User::count();
