@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\Task;
 
 class LoginController extends Controller
 {
@@ -26,10 +27,17 @@ class LoginController extends Controller
 
             // Store user's name, email, and password in the session
             Session::put('requestData', [
+                'id' => $user->id,
                 'name' => $user->name, // Store the name from the authenticated user
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
+
+            $tasks = Task::where('assigned_to',$user->id)
+            ->where('created_by',$user->id)
+            ->get();
+
+            Session::put('tasks',$tasks);
 
             if ($user->role == 'admin') {
                 return redirect()->route('admin.dashboard');
