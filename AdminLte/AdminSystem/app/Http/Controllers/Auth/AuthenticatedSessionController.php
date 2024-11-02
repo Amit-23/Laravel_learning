@@ -20,6 +20,29 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+
+  public function tasksdata(){
+     $user = Auth::user();
+    
+    // Retrieve all tasks created by or assigned to the user
+    $createdTasks = $user->createdTasks;
+    $assignedTasks = $user->assignedTasks;
+    $allTasks = $createdTasks->merge($assignedTasks);
+
+
+    $completedCount = $allTasks->where('status','completed')->count();
+    $inProgressCount = $allTasks->where('status','inprogress')->count();
+    $overdueCount = $allTasks->where('status','overdue')->count();
+
+    
+    return view('user.userhomepage',[
+        'completedCount' => $completedCount,
+        'inProgressCount' => $inProgressCount,
+        'overdueCount' => $overdueCount,
+    ]);
+  }
+
+
     /**
      * Handle an incoming authentication request.
      */
@@ -28,19 +51,19 @@ class AuthenticatedSessionController extends Controller
         $user = User::where('email', $request->input('email'))->sole();
 
         $role = $user->role;
+         
 
-
-
+         $request->session()->regenerate(); 
         $request->authenticate();
 
         $request->session()->regenerate();
 
         if ($role == 'admin') {
-            return redirect()->intended(route('admindashboard', absolute: false));
+            return redirect()->route('admindashboard');
         }
 
         else{
-             return redirect()->intended(route('userdashboard', absolute: false));
+             return redirect()->intended(route('userhome', absolute: false));
         }
     }
 
