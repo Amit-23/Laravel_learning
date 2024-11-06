@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Task;
+use App\Http\Requests\CreateTaskRequest;
 
 
 class UserTaskController extends Controller
@@ -78,9 +79,27 @@ class UserTaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createtask(CreateTaskRequest $request)
     {
-        //
+      
+
+        $user = Auth::user();
+
+        // dd($user->name);
+
+
+       Task::create([
+        'name' => $request->name,
+        'status' => $request->status,
+        'task_description' => $request->task_description,
+        'duedate' => $request->duedate,
+        'created_by' => $user->id,
+        'assigned_to' => $user->id,
+        'created_by_name' => $user->name,
+        'assigned_to_name' => $user->name,
+
+       ]);
+       return redirect()->back()->with('success', 'Task added successfully!');
     }
 
     /**
@@ -108,7 +127,7 @@ class UserTaskController extends Controller
     {
         $task = Task::find($id);
 
-        dd($task);
+        
     }
 
     /**
@@ -125,7 +144,9 @@ class UserTaskController extends Controller
     public function destroy(string $id)
     {
         $task = Task::find($id);
+        $task->delete();
+        return redirect()->back()->with('success', 'Task Deleted successfully!');
 
-        dd($task);
+        
     }
 }

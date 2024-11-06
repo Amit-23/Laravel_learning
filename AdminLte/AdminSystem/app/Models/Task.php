@@ -18,6 +18,8 @@ class Task extends Model
         'duedate',
         'created_by',
         'assigned_to',
+        'created_by_name',
+         'assigned_to_name',
 
     ];
 }

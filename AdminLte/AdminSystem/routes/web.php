@@ -14,6 +14,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+
+
+Route::post('/task/create',[UserTaskController::class,'createtask'])->middleware(['auth','verified'])->name('tasks.createtask');
+
 // //////////////////////////////////////////////////////////////
 
 Route::get('/userhome', [AuthenticatedSessionController::class,'tasksdata'])->middleware(['auth','verified'])->name('userhome');
