@@ -23,13 +23,9 @@ Route::post('/task/create',[UserTaskController::class,'createtask'])->middleware
 Route::get('/userhome', [AuthenticatedSessionController::class,'tasksdata'])->middleware(['auth','verified'])->name('userhome');
 /////////////////////////////////////////////////////////////////////
 
+Route::get('/admintasks',[AuthenticatedSessionController::class,'admintasks'])->middleware(['auth','verified'])->name('admintasks');
 
-
-Route::get('/admindashboard', function(){
-    return view('admin.index');
-})->middleware(['auth', 'verified'])->name('admindashboard');
-
-
+Route::get('/adminhomepage',[AuthenticatedSessionController::class,'admindata'])->middleware(['auth','verified'])->name('adminhomepage');
 
 Route::get('/tasks/completed',[UserTaskController::class, 'showCompletedTasks'])->name('tasks.completed');
 
@@ -37,6 +33,16 @@ Route::get('/tasks/inprogress',[UserTaskController::class, 'showInprogressTasks'
 
 Route::get('/tasks/overdue',[UserTaskController::class, 'showOverdueTasks'])->name('tasks.overdue');
 
+
+Route::get('registereduserslist',[AuthenticatedSessionController::class,'listUsers'])->name('registeredUsersList');
+
+Route::get('adminshow/{id}',[UserTaskController::class,'adminshowuser'])->name('admin.show');
+
+Route::delete('admindestroy/{id}',[UserTaskController::class,'admindestroyuser'])->name('admin.destroy');
+
+Route::get('admintaskshow/{id}',[UserTaskController::class,'admintaskshow'])->name('admintask.show');
+
+Route::post('admincreatetask',[AuthenticatedSessionController::class,'adminCreateTask'])->name('admin.admincreatetask');
 
 
 
@@ -60,10 +66,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';

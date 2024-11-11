@@ -75,19 +75,18 @@ class UserTaskController extends Controller
     }
 
 
+    
+
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function createtask(CreateTaskRequest $request)
     {
-      
-
         $user = Auth::user();
 
-        // dd($user->name);
-
-
+        
        Task::create([
         'name' => $request->name,
         'status' => $request->status,
@@ -127,16 +126,56 @@ class UserTaskController extends Controller
     {
         $task = Task::find($id);
 
+        return view("user.updatetask",compact('task'));
+
         
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CreateTaskRequest $request, string $id)
     {
-        //
+        $task = Task::find($id);
+
+        $validatedData = $request->validated();
+
+        $task->name = $validatedData['name'];
+        $task->status = $validatedData['status'];
+        $task->task_description = $validatedData['task_description'];
+        $task->duedate = $validatedData['duedate'];
+
+        $task->save();
+
+        return redirect()->route('userdashboard')->with('success', 'Task updated successfully');
+        
+        
     }
+
+
+    public function adminshowuser(string $id){
+
+        $user = User::find($id);
+
+        return view('admin.adminshowuser',compact('user'));
+
+    }
+
+
+    public function admintaskshow(string $id){
+
+        $task = Task::find($id);
+
+        return view('admin.admintaskshow',compact('task'));
+    }
+
+
+    public function admindestroyuser(string $id){
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back()->with('success', 'User Deleted successfully');
+    }
+
 
     /**
      * Remove the specified resource from storage.

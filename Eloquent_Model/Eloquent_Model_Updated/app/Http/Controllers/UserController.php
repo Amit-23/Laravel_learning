@@ -87,6 +87,7 @@ class UserController extends Controller
        
 
        return view("updateuser",compact('users'));
+       
     }
 
     /**

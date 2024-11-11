@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>User Dashboard</title>
+    <title>Admin Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -115,23 +115,24 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="{{ route('userhome') }}" class="nav-link {{ Request::routeIs('userhome') ? 'active' : '' }}">
+                            <a href="{{ route('adminhomepage') }}" class="nav-link {{ Request::routeIs('adminhomepage') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>Home</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('userdashboard') }}" class="nav-link {{ Request::routeIs('userdashboard') ? 'active' : '' }}">
+                            <a href="{{ route('admintasks') }}" class="nav-link {{ Request::routeIs('admintasks') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tasks"></i>
                                 <p>Tasks</p>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a href="{{ route('tasks.completed') }}" class="nav-link {{ Request::routeIs('tasks.completed') ? 'active' : '' }}">
+                        <li class="nav-item">
+                            <a href="{{ route('registeredUsersList') }}" class="nav-link {{ Request::routeIs('registeredUsersList') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tasks"></i>
-                                <p>Completed Tasks</p>
+                                <p>Users List</p>
                             </a>
-                        </li> -->
+                        </li>
+                       
                     </ul>
                 </nav>
             </div>
@@ -157,17 +158,17 @@
                                 @endif
                             </h1>
                         </div>
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{ route('userhome') }}">Home</a></li>
-                                @if (Request::routeIs('userdashboard'))
-                                <li class="breadcrumb-item active">Tasks</li>
+                                <li class="breadcrumb-item"><a href="{{ route('adminhomepage') }}">Home</a></li>
+                                @if (Request::routeIs('adminhomepage'))
+                                <li class="breadcrumb-item active">Home</li>
 
 
-                                @elseif (Request::routeIs('tasks.completed'))
-                                <li class="breadcrumb-item"><a href="{{ route('userdashboard') }}">Tasks</a></li>
-                                <li class="breadcrumb-item active">Completed Tasks</li>
-                                @elseif (Request::routeIs('tasks.inprogress'))
+                                @elseif (Request::routeIs('userslist'))
+                                <li class="breadcrumb-item"><a href="{{ route('userdashboard') }}">Users</a></li>
+                                <li class="breadcrumb-item active">Users</li>
+                                @elseif (Request::routeIs('userslist'))
                                 <li class="breadcrumb-item"><a href="{{ route('userdashboard') }}">Tasks</a></li>
                                 <li class="breadcrumb-item active">InProgress Tasks</li>
                                 @elseif (Request::routeIs('tasks.overdue'))
@@ -177,24 +178,15 @@
                                 <li class="breadcrumb-item active">Dashboard</li>
                                 @endif
                             </ol>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
 
 
-            <section class="content">
-                <div class="container-fluid">
+           @yield('content')
 
 
-                    @yield('content')
-
-
-
-
-
-                </div>
-            </section>
         </div>
 
 

@@ -23,7 +23,7 @@ class CreateTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'status' => 'required|max:50',
+            'status' => 'max:50',
             'task_description' => 'required',
             'duedate' => 'nullable|date',
         ];
