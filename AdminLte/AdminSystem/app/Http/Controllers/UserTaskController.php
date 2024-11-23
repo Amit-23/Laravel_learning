@@ -34,7 +34,7 @@ class UserTaskController extends Controller
 
         $completedTasks = $allTasks->where('status', 'completed');
 
-        return view ('user.usercompletedtasks',[
+        return view('user.usercompletedtasks', [
             'completedTasks' => $completedTasks,
         ]);
     }
@@ -52,7 +52,7 @@ class UserTaskController extends Controller
 
         $inProgressTasks = $allTasks->where('status', 'inprogress');
 
-        return view ('user.inprogresstasks',[
+        return view('user.inprogresstasks', [
             'inprogressTasks' => $inProgressTasks,
         ]);
     }
@@ -69,16 +69,10 @@ class UserTaskController extends Controller
 
         $overdueTasks = $allTasks->where('status', 'overdue');
 
-        return view ('user.overduetasks',[
+        return view('user.overduetasks', [
             'overdueTasks' => $overdueTasks,
         ]);
     }
-
-
-    
-
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -86,19 +80,19 @@ class UserTaskController extends Controller
     {
         $user = Auth::user();
 
-        
-       Task::create([
-        'name' => $request->name,
-        'status' => $request->status,
-        'task_description' => $request->task_description,
-        'duedate' => $request->duedate,
-        'created_by' => $user->id,
-        'assigned_to' => $user->id,
-        'created_by_name' => $user->name,
-        'assigned_to_name' => $user->name,
 
-       ]);
-       return redirect()->back()->with('success', 'Task added successfully!');
+        Task::create([
+            'name' => $request->name,
+            'status' => $request->status,
+            'task_description' => $request->task_description,
+            'duedate' => $request->duedate,
+            'created_by' => $user->id,
+            'assigned_to' => $user->id,
+            'created_by_name' => $user->name,
+            'assigned_to_name' => $user->name,
+
+        ]);
+        return redirect()->back()->with('success', 'Task added successfully!');
     }
 
     /**
@@ -126,9 +120,7 @@ class UserTaskController extends Controller
     {
         $task = Task::find($id);
 
-        return view("user.updatetask",compact('task'));
-
-        
+        return view("user.updatetask", compact('task'));
     }
 
     /**
@@ -148,31 +140,71 @@ class UserTaskController extends Controller
         $task->save();
 
         return redirect()->route('userdashboard')->with('success', 'Task updated successfully');
-        
-        
     }
 
 
-    public function adminshowuser(string $id){
+    public function adminshowuser(string $id)
+    {
 
         $user = User::find($id);
 
-        return view('admin.adminshowuser',compact('user'));
-
+        return view('admin.adminshowuser', compact('user'));
     }
 
 
-    public function admintaskshow(string $id){
+    public function admintaskshow(string $id)
+    {
 
         $task = Task::find($id);
+        $users = User::where('role', 'user')->get();
 
-        return view('admin.admintaskshow',compact('task'));
+        return view('admin.admintaskshow', [
+            'task' => $task,
+            'users' => $users,
+        ]);
     }
 
 
-    public function admindestroyuser(string $id){
-        $user = User::find($id);
+    public function admindestroytask(string $id)
+    {
+        $user = Task::find($id);
+
+
         $user->delete();
+
+        return redirect()->back()->with('success', 'Task Deleted successfully');
+    }
+
+    //here integrity constraint can come as i will have to update the tasks table (assigned_to,assigned_to_name) these are foreign keys here referencing users table;
+    public function reassignadmintask(Request $request, $taskId)
+    {
+
+        $newAssigneeId = $request->input('new_assignee');
+
+        $task = Task::find($taskId);
+
+        if (!$task) {
+            return redirect()->back()->withErrors(['Task not found']);
+        }
+
+        $task->assigned_to = $newAssigneeId;
+
+        $userName = $newAssigneeId ? User::find($newAssigneeId)->name : null;
+
+        $task->assigned_to_name = $userName;
+        $task->save();
+        return redirect()->back()->with('success', 'Task reassigned successfully');
+    }
+
+
+
+    public function admindestroyuser(string $id)
+    {
+        $user = User::find($id);
+
+
+        $user->delete();
+
         return redirect()->back()->with('success', 'User Deleted successfully');
     }
 
@@ -185,7 +217,5 @@ class UserTaskController extends Controller
         $task = Task::find($id);
         $task->delete();
         return redirect()->back()->with('success', 'Task Deleted successfully!');
-
-        
     }
 }

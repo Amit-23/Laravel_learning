@@ -122,6 +122,7 @@
     }
 </style>
 
+
 <div class="table-container">
     <!-- Success Message Alert -->
     @if (session('success'))
@@ -131,75 +132,59 @@
         </div>
     @endif
 
-    <!-- Button Container for Back and Reassign -->
+    <!-- Button Container for Back -->
     <div class="button-container">
         <a href="{{ route('admintasks') }}" class="btn btn-custom">
             <i class="fas fa-arrow-left"></i> Back
         </a>
-        <button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#reassignModal">
-            <i class="fas fa-user-edit"></i> Reassign
-        </button>
     </div>
 
-    <!-- Task Details Table -->
-    <table class="custom-table">
-        <thead>
-            <tr>
-                <th>Task Name</th>
-                <th>Task Status</th>
-                <th>Task Description</th>
-                <th>Due Date</th>
-                <th>Assigned To</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td data-label="Task Name">{{ $task->name }}</td>
-                <td data-label="Task Status">
-                    <span class="badge
-                        @if($task->status === 'overdue') bg-danger
-                        @elseif($task->status === 'inprogress') bg-warning text-dark
-                        @elseif($task->status === 'completed') bg-success
-                        @endif rounded-pill">
-                        {{ ucfirst($task->status) }}
-                    </span>
-                </td>
-                <td data-label="Task Description">{{ $task->task_description }}</td>
-                <td data-label="Due Date">{{ $task->duedate ?? '...' }}</td>
-                <td data-label="Assigned To">{{ $task->assigned_to_name ?? '...' }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <!-- Edit Task Form -->
+    <form action="{{route('admin.adminUpdateTask',$task->id)}}" method="POST">
+        @csrf
+        @method('PUT') <!-- Using PUT method for updating -->
 
-<!-- Reassign Modal -->
-<div class="modal fade" id="reassignModal" tabindex="-1" aria-labelledby="reassignModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header modal-header-custom">
-                <h5 class="modal-title" id="reassignModalLabel">Reassign Task</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body modal-body-custom">
-                <form action="{{ route('tasks.reassign', $task->id) }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="newAssignee" class="form-label">Select New Assignee</label>
-                        <select class="form-select" id="newAssignee" name="new_assignee" required>
-                            <option value="" selected>Choose a Client</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
+        <!-- Task Details Table -->
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Task Status</th>
+                    <th>Task Description</th>
+                    <th>Due Date</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Task Name">
+                        <input type="text" name="name" class="form-control" value="{{ old('name', $task->name) }}">
+                    </td>
+                    <td data-label="Task Status">
+                        <select name="status" class="form-control">
+                            <option value="inprogress" @if($task->status == 'inprogress') selected @endif>In Progress</option>
+                            <option value="completed" @if($task->status == 'completed') selected @endif>Completed</option>
+                            <option value="overdue" @if($task->status == 'overdue') selected @endif>Overdue</option>
                         </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Reassign Task</button>
-                    </div>
-                </form>
-            </div>
+                    </td>
+                    <td data-label="Task Description">
+                        <textarea name="task_description" class="form-control">{{ old('task_description', $task->task_description) }}</textarea>
+                    </td>
+                    <td data-label="Due Date">
+                        <input type="date" name="duedate" class="form-control" value="{{ old('duedate', $task->duedate) }}">
+                    </td>
+                   
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Save Button -->
+        <div class="button-container" style="justify-content: flex-end;">
+            <button type="submit" class="btn btn-custom">
+                <i class="fas fa-save"></i> Save Changes
+            </button>
         </div>
-    </div>
+    </form>
 </div>
 
 @endsection

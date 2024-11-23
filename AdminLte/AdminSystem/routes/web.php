@@ -7,71 +7,85 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-
-Route::resource('/user',UserTaskController::class);
-
+// Route to login page
 Route::get('/', function () {
     return view('auth.login');
 });
 
 
 
-Route::post('/task/create',[UserTaskController::class,'createtask'])->middleware(['auth','verified'])->name('tasks.createtask');
 
-// //////////////////////////////////////////////////////////////
+// Group routes that require 'auth' and 'verified' middleware
+Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::get('/userhome', [AuthenticatedSessionController::class,'tasksdata'])->middleware(['auth','verified'])->name('userhome');
-/////////////////////////////////////////////////////////////////////
-
-Route::get('/admintasks',[AuthenticatedSessionController::class,'admintasks'])->middleware(['auth','verified'])->name('admintasks');
-
-Route::get('/adminhomepage',[AuthenticatedSessionController::class,'admindata'])->middleware(['auth','verified'])->name('adminhomepage');
-
-Route::get('/tasks/completed',[UserTaskController::class, 'showCompletedTasks'])->name('tasks.completed');
-
-Route::get('/tasks/inprogress',[UserTaskController::class, 'showInprogressTasks'])->name('tasks.inprogress');
-
-Route::get('/tasks/overdue',[UserTaskController::class, 'showOverdueTasks'])->name('tasks.overdue');
-
-
-Route::get('registereduserslist',[AuthenticatedSessionController::class,'listUsers'])->name('registeredUsersList');
-
-Route::get('adminshow/{id}',[UserTaskController::class,'adminshowuser'])->name('admin.show');
-
-Route::delete('admindestroy/{id}',[UserTaskController::class,'admindestroyuser'])->name('admin.destroy');
-
-Route::get('admintaskshow/{id}',[UserTaskController::class,'admintaskshow'])->name('admintask.show');
-
-Route::post('admincreatetask',[AuthenticatedSessionController::class,'adminCreateTask'])->name('admin.admincreatetask');
-
-
-
-
-Route::get('/userdashboard', function(){
-
-    $user = Auth::user();
     
-    // Retrieve all tasks created by or assigned to the user
-    $createdTasks = $user->createdTasks;
-    $assignedTasks = $user->assignedTasks;
-    $allTasks = $createdTasks->merge($assignedTasks);
+    // User-specific task and dashboard routes
+    Route::get('/userhome', [AuthenticatedSessionController::class, 'tasksdata'])->name('userhome');
+    Route::get('/userdashboard', function () {
+        $user = Auth::user();
+        $createdTasks = $user->createdTasks;
+        $assignedTasks = $user->assignedTasks;
+        $allTasks = $createdTasks->merge($assignedTasks);
+        return view('user.userdashboard', ['allTasks' => $allTasks]);
+    })->name('userdashboard');
 
-    //dd($allTasks);
+    
+    // User task management routes
+    Route::post('/task/create', [UserTaskController::class, 'createtask'])->name('tasks.createtask');
+    Route::get('/tasks/completed', [UserTaskController::class, 'showCompletedTasks'])->name('tasks.completed');
+    Route::get('/tasks/inprogress', [UserTaskController::class, 'showInprogressTasks'])->name('tasks.inprogress');
+    Route::get('/tasks/overdue', [UserTaskController::class, 'showOverdueTasks'])->name('tasks.overdue');
+
+    
 
 
-    return view('user.userdashboard',['allTasks' => $allTasks]);
-})->middleware(['auth', 'verified'])->name('userdashboard');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::middleware('auth')->group(function () {
+
+
+
+
+
+
+
+    // Admin-specific task routes
+    Route::get('/admintasks', [AuthenticatedSessionController::class, 'admintasks'])->name('admintasks');
+
+
+    Route::get('/adminhomepage', [AuthenticatedSessionController::class, 'admindata'])->name('adminhomepage');
+
+    
+    Route::get('registereduserslist', [AuthenticatedSessionController::class, 'listUsers'])->name('registeredUsersList');
+    Route::get('adminshow/{id}', [UserTaskController::class, 'adminshowuser'])->name('admin.show');
+
+    Route::delete('admindestroy/{id}', [UserTaskController::class, 'admindestroytask'])->name('admin.destroytask');
+
+    Route::delete('admindestroyuser/{id}', [UserTaskController::class, 'admindestroyuser'])->name('admin.destroyuser');
+
+    Route::get('admintaskshow/{id}', [UserTaskController::class, 'admintaskshow'])->name('admintask.show');
+    Route::post('admincreatetask', [AuthenticatedSessionController::class, 'adminCreateTask'])->name('admin.admincreatetask');
+
+    Route::get('admin_task_edit.edit/{id}', [AuthenticatedSessionController::class, 'adminTaskEdit'])->name('admin_task_edit.edit');
+      Route::post('/tasks/{task}/reassign',[UserTaskController::class, 'reassignadmintask'])->name('tasks.reassign');
+
+    Route::put('/admin/updateTask/{id}', [AuthenticatedSessionController::class, 'adminUpdateTask'])->name('admin.adminUpdateTask');
+
+
+
+
+    
+    // Profile management routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Dashboard route
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 
+// Resource route for UserTaskController
+Route::resource('/user', UserTaskController::class);
 
 require __DIR__.'/auth.php';

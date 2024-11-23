@@ -27,6 +27,7 @@
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
+            
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
@@ -56,7 +57,10 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+            <!-- <x-primary-button>{{ __('Save') }}</x-primary-button> -->
+
+            <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
 
             @if (session('status') === 'profile-updated')
                 <p
@@ -110,7 +114,9 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+            <!-- <x-primary-button>{{ __('Save') }}</x-primary-button> -->
+            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
 
             @if (session('status') === 'password-updated')
                 <p
@@ -141,10 +147,23 @@
         </p>
     </header>
 
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+   <div>
+    <button type="submit" class="btn btn-danger" onclick="confirmDelete()">
+        {{ __('Delete Account') }}
+    </button>
+</div>
+
+
+<script>
+    // JavaScript function to confirm deletion
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+            document.getElementById('delete-account-form').submit();
+        }
+    }
+</script>
+
+
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
         <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
