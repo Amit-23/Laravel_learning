@@ -52,10 +52,10 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-        <!-- Preloader -->
+        <!-- Preloader
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{ asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTELogo" height="60" width="60">
-        </div>
+        </div> -->
 
         <!-- Navbar -->
 
@@ -108,7 +108,7 @@
                         <img src="{{ asset('adminlte/dist/img/mylogo.jpg')}}" width="60px" style="border-radius: 50px;" class="img-circle elevation-2" alt="User">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Amit Singh</a>
+                        <a href="{{ route('profile.edit') }}" class="d-block">Amit Singh</a>
                     </div>
                 </div>
 
@@ -193,10 +193,10 @@
 
 
         <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">Amit.io</a>.</strong>
+            <strong>Copyright &copy; 2024-2025 <a href="https://laravel.com/">Amit.io</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
+               
             </div>
         </footer>
     </div>
@@ -208,9 +208,12 @@
 
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 
-
-    <script>
-        let table = new DataTable('#myTable');
+<script>
+    let table = new DataTable('#myTable', {
+        language: {
+            lengthMenu: "_MENU_" 
+        }
+    });
 </script>
 
     
@@ -243,7 +246,7 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('adminlte/dist/js/demo.js')}}"></script>
+    <!-- <script src="{{ asset('adminlte/dist/js/demo.js')}}"></script> -->
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('adminlte/dist/js/pages/dashboard.js')}}"></script>
 

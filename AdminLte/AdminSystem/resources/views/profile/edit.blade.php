@@ -1,212 +1,181 @@
-<!-- resources/views/edit.blade.php -->
-@extends('profile.profilelayouts.new-layout') <!-- Using the new layout instead of default -->
+@extends('profile.profilelayouts.new-layout')
 
 @section('content')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
-        </p>
-    </header>
-
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
-    </form>
-
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-        @csrf
-        @method('patch')
-
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
-
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
-
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
-
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
-
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
-            @endif
-        </div>
-
-        <div class="flex items-center gap-4">
-
-            <!-- <x-primary-button>{{ __('Save') }}</x-primary-button> -->
-
-            <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
-
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
-            @endif
-        </div>
-    </form>
-</section>
-
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Update Password') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Ensure your account is using a long, random password to stay secure.') }}
-        </p>
-    </header>
-
-    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
-        @csrf
-        @method('put')
-
-        <div>
-            <x-input-label for="update_password_current_password" :value="__('Current Password')" />
-            <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
-            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
-        </div>
-
-        <div>
-            <x-input-label for="update_password_password" :value="__('New Password')" />
-            <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
-            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
-        </div>
-
-        <div>
-            <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
-            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center gap-4">
-
-            <!-- <x-primary-button>{{ __('Save') }}</x-primary-button> -->
-            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-
-            @if (session('status') === 'password-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
-            @endif
-        </div>
-    </form>
-</section>
-
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Delete Account') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
-        </p>
-    </header>
-
-   <div>
-    <button type="submit" class="btn btn-danger" onclick="confirmDelete()">
-        {{ __('Delete Account') }}
-    </button>
-</div>
-
-
-<script>
-    // JavaScript function to confirm deletion
-    function confirmDelete() {
-        if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-            document.getElementById('delete-account-form').submit();
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9fafb;
     }
-</script>
 
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
 
+    .header {
+        margin-bottom: 15px;
+    }
 
-    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+    .header h2 {
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .header p {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 8px 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+    input:focus {
+        border-color: #6366f1;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn {
+        background-color: #6366f1;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .btn:hover {
+        background-color: #4f46e5;
+    }
+
+    .error {
+        color: #e3342f;
+        font-size: 0.875rem;
+    }
+
+    .success {
+        color: #38a169;
+        font-size: 0.875rem;
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+</style>
+
+<div class="container">
+    <!-- Profile Information Section -->
+    <div class="section">
+        <div class="header">
+            <h2>{{ __('Profile Information') }}</h2>
+            <p>{{ __("Update your account's profile information and email address.") }}</p>
+        </div>
+
+        <!-- Update Profile Form -->
+        <form method="post" action="{{ route('profile.update') }}">
             @csrf
-            @method('delete')
+            @method('patch')
 
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                {{ __('Are you sure you want to delete your account?') }}
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-            </p>
-
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
-
-                <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
-                />
-
-                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+            <!-- Name Input -->
+            <div>
+                <label for="name">{{ __('Name') }}</label>
+                <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required autofocus>
+                @error('name')
+                <p class="error">{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
+            <!-- Email Input -->
+            <div>
+                <label for="email">{{ __('Email') }}</label>
+                <input type="email" id="email" name="email" disabled value="{{ old('email', $user->email) }}" required>
+                @error('email')
+                <p class="error">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
-                </x-danger-button>
+            <!-- Save Button -->
+            <div class="flex">
+                <button type="submit" class="btn">{{ __('Save') }}</button>
+                @if (session('status') === 'profile-updated')
+                <p class="success">{{ __('Saved.') }}</p>
+                @endif
             </div>
         </form>
-    </x-modal>
-</section>
-
-                </div>
-            </div>
-        </div>
     </div>
+
+    <hr style="margin: 20px 0;">
+
+    <!-- Update Password Section -->
+    <div class="section">
+        <div class="header">
+            <h2>{{ __('Update Password') }}</h2>
+            <p>{{ __('Ensure your account is using a long, random password to stay secure.') }}</p>
+        </div>
+
+        <!-- Password Update Form -->
+        <form method="post" action="{{ route('password.update') }}">
+            @csrf
+            @method('put')
+
+            <!-- Current Password -->
+            <div>
+                <label for="current_password">{{ __('Current Password') }}</label>
+                <input type="password" id="current_password" name="current_password">
+                @error('current_password', 'updatePassword')
+                <p class="error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- New Password -->
+            <div>
+                <label for="password">{{ __('New Password') }}</label>
+                <input type="password" id="password" name="password">
+                @error('password', 'updatePassword')
+                <p class="error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+                <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                <input type="password" id="password_confirmation" name="password_confirmation">
+                @error('password_confirmation', 'updatePassword')
+                <p class="error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Save Button -->
+            <div class="flex">
+                <button type="submit" class="btn">{{ __('Save') }}</button>
+                @if (session('status') === 'password-updated')
+                <p class="success">{{ __('Saved.') }}</p>
+                @endif
+            </div>
+        </form>
+    </div>
+</div>
 @endsection

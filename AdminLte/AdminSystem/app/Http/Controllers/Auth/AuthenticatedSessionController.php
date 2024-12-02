@@ -179,6 +179,65 @@ class AuthenticatedSessionController extends Controller
         }
     }
 
+
+    public function adminCreateNewUser(Request $request){
+
+        $email = $request->input('email');
+
+          $user = User::where('email', $email)->get();
+
+          if(!$user){
+             return redirect()->back()->with('error', 'User with the same email exists!');
+
+          }
+
+
+
+          else{
+
+            $role = 'user';
+
+             $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $role,
+            'email_verified_at' => now()->format('Y-m-d H:i:s'),
+            'password' => $request->password,
+        ]);
+
+          return redirect()->back()->with('success', 'User created successfully!');
+
+          }
+
+    
+
+    }
+
+
+
+    public function adminEditUserDetails(Request $request,string $id){
+
+        $user = User::find($id);
+         return view('admin.adminEditUser', compact('user'));
+        
+
+
+    }
+
+
+    public function updateUserDetails(Request $request,string $id){
+
+        $user = User::find($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->created_at = $request->created_at;
+
+        $user->save();
+        return redirect()->route('registeredUsersList')->with('success', 'User has been updated successfully');
+
+    }
+
     /**
      * Destroy an authenticated session.
      */

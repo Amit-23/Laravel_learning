@@ -3,13 +3,14 @@
 @section('content')
 
 <style>
-    /* Table container for spacing */
+    /* Container styling for spacing and background */
     .table-container {
-        margin: 20px;
+        margin: 20px auto;
         padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        background-color: #f4f6f8;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        max-width: 90%;
     }
 
     /* Custom table styling */
@@ -18,29 +19,48 @@
         border-collapse: collapse;
         font-size: 1em;
         background-color: #ffffff;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
         overflow: hidden;
-        border-radius: 8px;
     }
 
+    /* Table header styling */
     .custom-table thead th {
-        background-color: #00796b;
+        background-color: #34495e;
         color: #ffffff;
-        text-align: left;
         padding: 15px;
+        text-align: left;
+        font-weight: bold;
     }
 
+    /* Table body styling */
     .custom-table tbody td {
-        padding: 12px 15px;
+        padding: 15px;
         border-bottom: 1px solid #e0e0e0;
     }
 
+    /* Zebra-striping rows */
     .custom-table tbody tr:nth-of-type(even) {
         background-color: #f9f9f9;
     }
 
-    .custom-table tbody tr:last-of-type td {
-        border-bottom: none;
+    /* Button container for alignment */
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    /* Custom heading styling */
+    .section-heading {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #34495e;
+        margin-bottom: 10px;
+    }
+
+    .section-subheading {
+        font-size: 1em;
+        color: #7f8c8d;
     }
 
     /* Responsive adjustments */
@@ -52,8 +72,8 @@
         .custom-table tbody td {
             display: block;
             text-align: right;
-            position: relative;
             padding-left: 50%;
+            position: relative;
         }
 
         .custom-table tbody td::before {
@@ -64,17 +84,16 @@
             padding-left: 15px;
             font-weight: bold;
             color: #616161;
-            text-align: left;
             background-color: #f5f5f5;
         }
     }
 </style>
 
 <div class="table-container">
-    <h2>User Information</h2>
-    <p class="text-muted">Details of the selected user</p>
-    
-    <!-- Table -->
+    <h2 class="section-heading">User Information</h2>
+    <p class="section-subheading">Details of the selected user</p>
+
+    <!-- User Details Table -->
     <table class="custom-table">
         <thead>
             <tr>

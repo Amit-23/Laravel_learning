@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Session\Middleware\AuthenticateSession;
 
 // Route to login page
 Route::get('/', function () {
@@ -69,6 +70,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
       Route::post('/tasks/{task}/reassign',[UserTaskController::class, 'reassignadmintask'])->name('tasks.reassign');
 
     Route::put('/admin/updateTask/{id}', [AuthenticatedSessionController::class, 'adminUpdateTask'])->name('admin.adminUpdateTask');
+
+    Route::post('createnewuser',[AuthenticatedSessionController::class,'adminCreateNewUser'])->name('admin.adminCreateUser');
+
+    Route::get('edituserdetails/{id}',[AuthenticatedSessionController::class,'adminEditUserDetails'])->name('admin.editUserDetails');
+
+    Route::put('updateuserdetails/{id}',[AuthenticatedSessionController::class,'updateUserDetails'])->name('admin.adminUpdateUser');
 
 
 

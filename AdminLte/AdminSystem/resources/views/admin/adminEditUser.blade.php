@@ -113,7 +113,7 @@
     @endif
 
     <!-- Edit Task Form -->
-    <form action="{{ route('admin.adminUpdateTask', $task->id) }}" method="POST">
+    <form action="{{ route('admin.adminUpdateUser', $user->id) }}" method="POST">
         @csrf
         @method('PUT') <!-- Using PUT method for updating -->
 
@@ -121,29 +121,24 @@
         <table class="custom-table">
             <thead>
                 <tr>
-                    <th>Task Name</th>
-                    <th>Task Status</th>
-                    <th>Task Description</th>
-                    <th>Due Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Created At</th>
+                   
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td data-label="Task Name">
-                        <input type="text" name="name" class="form-control" value="{{ old('name', $task->name) }}">
+                    <td data-label="Name">
+                        <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}">
                     </td>
-                    <td data-label="Task Status">
-                        <select name="status" class="form-control">
-                            <option value="inprogress" @if($task->status == 'inprogress') selected @endif>In Progress</option>
-                            <option value="completed" @if($task->status == 'completed') selected @endif>Completed</option>
-                            <option value="overdue" @if($task->status == 'overdue') selected @endif>Overdue</option>
-                        </select>
+                   
+                   
+                    <td data-label="Email">
+                        <input type="text" name="email" class="form-control" value="{{ old('email', $user->email) }}">
                     </td>
-                    <td data-label="Task Description">
-                        <textarea name="task_description" class="form-control">{{ old('task_description', $task->task_description) }}</textarea>
-                    </td>
-                    <td data-label="Due Date">
-                        <input type="date" name="duedate" class="form-control" value="{{ old('duedate', $task->duedate) }}">
+                    <td data-label="Created At">
+                        <input type="date" name="created_at" class="form-control" value="{{ old('created_at', $user->created_at) }}">
                     </td>
                 </tr>
             </tbody>
@@ -152,7 +147,7 @@
         <!-- Button Container for Back and Save -->
         <div class="button-container">
             <!-- Back Button -->
-            <a href="{{ route('admintasks') }}" class="btn btn-custom">
+            <a href="{{ route('registeredUsersList') }}" class="btn btn-custom">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
             <!-- Save Changes Button -->

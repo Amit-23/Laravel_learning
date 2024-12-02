@@ -12,13 +12,7 @@ use App\Http\Requests\CreateTaskRequest;
 
 class UserTaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+   
 
 
 
@@ -95,13 +89,7 @@ class UserTaskController extends Controller
         return redirect()->back()->with('success', 'Task added successfully!');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+   
 
     /**
      * Display the specified resource.
@@ -136,7 +124,7 @@ class UserTaskController extends Controller
         $task->status = $validatedData['status'];
         $task->task_description = $validatedData['task_description'];
         $task->duedate = $validatedData['duedate'];
-
+        
         $task->save();
 
         return redirect()->route('userdashboard')->with('success', 'Task updated successfully');

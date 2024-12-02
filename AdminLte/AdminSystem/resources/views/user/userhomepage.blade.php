@@ -26,7 +26,7 @@
 <div class="row">
     <!-- Completed Tasks -->
     <div class="col-12 col-sm-6 col-md-4">
-        <a href="{{ route('tasks.completed')}}" class="text-decoration-none">
+        <a href="" class="text-decoration-none">
             <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1 large-icon"><i class="fas fa-check"></i></span>
                 <div class="info-box-content">
@@ -39,7 +39,8 @@
 
     <!-- Started (In Progress) Tasks -->
     <div class="col-12 col-sm-6 col-md-4">
-        <a href="{{ route('tasks.inprogress') }}" class="text-decoration-none">
+        <!-- route(tasks.inprogress) -->
+        <a href="" class="text-decoration-none">
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-danger elevation-1 large-icon"><i class="fas fa-play"></i></span>
                 <div class="info-box-content">
@@ -52,7 +53,7 @@
 
     <!-- Overdue Tasks -->
     <div class="col-12 col-sm-6 col-md-4">
-        <a href="{{ route('tasks.overdue') }}" class="text-decoration-none">
+        <a href="" class="text-decoration-none">
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1 large-icon"><i class="far fa-circle"></i></span>
                 <div class="info-box-content">

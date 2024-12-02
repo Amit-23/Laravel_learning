@@ -7,7 +7,7 @@
         <!-- Add Task Button -->
         <div class="d-flex justify-content-end mb-3">
             <a href="#" class="btn btn-primary" title="Add" data-bs-toggle="modal" data-bs-target="#addTaskModal">
-                <i class="fas fa-plus"></i> Add Task
+                <i class="fas fa-plus"></i>{{__('common.add_task')}}
             </a>
         </div>
 
@@ -24,13 +24,13 @@
             <table id="myTable" class="display table table-bordered table-hover" style="width:100%">
                 <thead class="table-light">
                     <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Task Description</th>
-                        <th>Created At</th>
-                        <th>Due Date</th>
-                        <th>Assigned To</th>
-                        <th>Action</th>
+                        <th>{{__('common.name')}}</th>
+                        <th>{{__('common.status')}}</th>
+                        <th>{{__('common.task_description')}}</th>
+                        <th>{{__('common.created_at')}}</th>
+                        <th>{{__('common.due_date')}}</th>
+                        <th>{{__('common.assigned_to')}}</th>
+                        <th>{{__('common.action')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,16 +40,14 @@
 
                         <td>
                             <span class="badge 
-        @if($task->status === 'overdue') bg-danger
-        @elseif($task->status === 'inprogress') bg-warning text-dark
-        @elseif($task->status === 'completed') bg-success
-        @endif
-        rounded-pill">
+                            @if($task->status === 'overdue') bg-danger
+                            @elseif($task->status === 'inprogress') bg-warning text-dark
+                            @elseif($task->status === 'completed') bg-success
+                            @endif
+                            rounded-pill">
                                 {{ ucfirst($task->status) }}
                             </span>
                         </td>
-
-
 
                         <td>{{ $task->task_description }}</td>
                         <td>{{ $task->created_at }}</td>
@@ -68,13 +66,11 @@
                                 </a>
 
                                 <!-- Delete Icon -->
-                                <form action="{{ route('admin.destroytask', $task->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger mx-1" title="Delete" onclick="return confirm('Are you sure?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-sm btn-danger mx-1" title="Delete"
+                                    data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                    onclick="setDeleteAction('{{ route('admin.destroytask', $task->id) }}')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -134,7 +130,38 @@
                 </div>
             </div>
         </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this task? This action cannot be undone.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form id="deleteTaskForm" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
+
+<script>
+    function setDeleteAction(action) {
+        const form = document.getElementById('deleteTaskForm');
+        form.action = action;
+    }
+</script>
 
 @endsection

@@ -1,5 +1,24 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+    <style>
+        input[type="email"] {
+            background-color: white; /* White background for the input box */
+            color: black; /* Black text inside the input box */
+            border: 1px solid #d1d5db; /* Light gray border */
+            border-radius: 5px; /* Slightly rounded corners */
+            padding: 10px; /* Padding inside the input box */
+            width: 100%; /* Full-width input */
+            font-size: 1rem; /* Standard font size */
+            box-sizing: border-box; /* Ensures padding doesn’t affect width */
+        }
+
+        input[type="email"]:focus {
+            border-color: #6366f1; /* Indigo border on focus */
+            outline: none; /* Removes default focus outline */
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3); /* Focus ring effect */
+        }
+    </style>
+
+    <div class="mb-4 text-sm text-gray-600">
         {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
     </div>
 
@@ -11,8 +30,15 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+           <label for="email">Email</label>
+            <input 
+                id="email" 
+                type="email" 
+                name="email" 
+                value="{{ old('email') }}" 
+                required 
+                autofocus 
+            />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
