@@ -3,30 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
-    //Tasks created by the user
-    public function createdTasks(): HasMany {
-        return $this->hasMany(Task::class, 'created_by');
-        //'created_by': This is the foreign key in the tasks table that links each task to the user who created it.
-    }
-
-    //Tasks assigned to the user by the admin
-    public function assignedTasks(): HasMany {
-        return $this->hasMany(Task::class, 'assigned_to');
-    }
-
-
-
-
-
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -39,7 +21,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'role',
     ];
 
     /**

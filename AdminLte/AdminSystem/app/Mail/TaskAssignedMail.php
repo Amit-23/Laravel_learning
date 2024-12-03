@@ -26,6 +26,8 @@ class TaskAssignedMail extends Mailable implements ShouldQueue // Implement Shou
     /**
      * Get the message envelope.
      */
+
+     //we provide metadata here
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -36,6 +38,8 @@ class TaskAssignedMail extends Mailable implements ShouldQueue // Implement Shou
     /**
      * Get the message content definition.
      */
+
+     //defines the content of the email, here also specify what view to be used for rendering the email
     public function content(): Content
     {
         return new Content(
