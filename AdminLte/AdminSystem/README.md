@@ -1,20 +1,21 @@
-🚀 AdminTasker – Multi-Admin Task Management System
-Tech Stack: Laravel · MySQL · Bootstrap · JavaScript
+# 🚀 **AdminTasker – Multi-Admin Task Management System**
 
-🛠 Overview
-AdminTasker is a feature-rich, multi-admin task management system built using Laravel. Designed to streamline task delegation, monitoring, and lifecycle management across administrative roles.
+**Tech Stack:** Laravel · MySQL · Bootstrap · JavaScript
 
-✨ Features
-🔐 Secure Authentication with Laravel Breeze
+---
 
-📊 Real-Time Task Tracking across multiple admins
+## 🛠 **Overview**
 
-📬 Background Email Notifications using Laravel Jobs & Queues
+**AdminTasker** is a feature-rich, multi-admin task management system built using Laravel. Designed to streamline task delegation, monitoring, and lifecycle management across administrative roles.
 
-🔄 Task Reassignment & Lifecycle Control
+---
 
-⏰ Deadline Monitoring & Status Updates
+## ✨ **Features**
 
-📋 Simple and clean UI with Bootstrap
-
-💾 MySQL used for persistent data storage
+- 🔐 **Secure Authentication** with Laravel Breeze  
+- 📊 **Real-Time Task Tracking** across multiple admins  
+- 📬 **Background Email Notifications** using Laravel Jobs & Queues  
+- 🔄 **Task Reassignment & Lifecycle Control**  
+- ⏰ **Deadline Monitoring & Status Updates**  
+- 📋 **Simple and clean UI** with Bootstrap  
+- 💾 **MySQL** used for persistent data storage  
